@@ -1,48 +1,51 @@
-import React, {memo, useCallback, useMemo, useState} from 'react';
+import React from 'react';
+import {useDispatch, useSelector} from "react-redux";
 
+const Test = () => {
 
-const Test = memo(({cartSum, onClick}) => {
-    console.log("Test");
+    // const storeCounter = useSelector((state) => {
+    //     console.log(state);
+    //     return state.counter;
+    // });
 
+    // const storeCounter = useSelector(({counter}) => counter);
 
-    return (
-        <h3 onClick={() => onClick(Math.random())}>
-            Test shows cartSum: {cartSum.val}
-        </h3>
-    );
-}, );
+    const counter = useSelector(({counter}) => counter);
 
+    const dispatch = useDispatch();
 
-function App() {
+    const handleInc = () => dispatch({type: "INC_COUNTER"});
 
+    const handleDec = () => dispatch({type: "DEC_COUNTER"});
 
-    const [counter, setCounter] = useState(0);
+    const handleReset = () => dispatch({type: "RESET_COUNTER"});
 
-    // const arr = [21, 56, 77, 93, 1, 7, 92, 11];
-
-    const [arr, setArr] = useState([21, 56, 77, 93, 1, 7, 92, 11]);
-
-
-    const cartSum = useMemo(
-        () => ({val: arr.reduce((acc, el) => (acc + el), 0)}),
-        []
-    );
-
-    // const cartSum = ({val: arr.reduce((acc, el) => (acc + el), 0)});
-
-    const onClickTest = useCallback((num) => {
-        console.log(num)
-    }, [arr])
 
     return (
         <div>
-            {/*<h3 onClick={() => setCounter((prev) => prev+1)}>*/}
-            <h3 onClick={() => setArr((prev) => [...prev, Math.random()])}>
-                Counter: {counter}
-            </h3>
-            <Test cartSum={cartSum} onClick={onClickTest}/>
+            <h3>{counter}</h3>
+            <button onClick={handleInc}>Inc</button>
+            <button onClick={handleDec}>Dec</button>
+            <button onClick={handleReset}>Reset</button>
+        </div>
+    )
+};
+
+export default function App() {
+
+    // const storeCounter = useSelector((state) => {
+    //     return state.counter
+    // });
+
+    // const [counter, setCounter]= useState(0);
+
+    const counter = useSelector(({counter}) => counter);
+
+    return (
+        <div>
+            <h3>Counter: {counter}</h3>
+            {/*<h3>Counter: {counter}</h3>*/}
+            <Test title='test'/>
         </div>
     );
-}
-
-export default App;
+};
